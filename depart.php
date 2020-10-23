@@ -6,9 +6,12 @@
     <title>Departamentos</title>
 </head>
 <body>
+    <?php
+    $dept_no = isset($_GET['dept_no']) ? trim($_GET['dept_no']) : null;
+    ?>
     <form action="" method="get">
         <label for="dept_no">Número:</label>
-        <input type="text" name="dept_no" id="dept_no">
+        <input type="text" name="dept_no" id="dept_no" value="<?= $dept_no ?>">
         <button type="submit">Buscar</button>
     </form>
     <?php
