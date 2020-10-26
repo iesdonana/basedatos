@@ -21,3 +21,10 @@ VALUES (10, 'CONTABILIDAD', 'SANLÚCAR')
      , (20, 'INVESTIGACIÓN', 'JEREZ')
      , (30, 'VENTAS', 'CHIPIONA')
      , (40, 'PRODUCCIÓN', 'TREBUJENA');
+
+-- Conversiones entre SQL y PHP:
+-- NULL <=> null
+-- bool <=> bool
+-- entero (no numeric) <=> int (si cabe)
+-- el resto <=> string
+
