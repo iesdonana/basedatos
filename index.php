@@ -7,6 +7,9 @@
 </head>
 <body>
     <?php
+    require './auxiliar.php';
+    banner();
+    cookies();
     $dept_no = isset($_GET['dept_no']) ? trim($_GET['dept_no']) : '';
     ?>
     <form action="" method="get">
