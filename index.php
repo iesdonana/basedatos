@@ -18,7 +18,7 @@
         <button type="submit">Buscar</button>
     </form>
     <?php
-    $pdo = new PDO('pgsql:host=localhost;dbname=prueba', 'prueba', 'prueba');
+    $pdo = conectar();
     // Validación del $dept_no
     if ($dept_no == '') {
         $sent = $pdo->query('SELECT COUNT(*) FROM depart');

@@ -7,10 +7,13 @@
 </head>
 <body>
     <?php
+    require './auxiliar.php';
+
     $dept_no = isset($_POST['dept_no']) ? trim($_POST['dept_no']) : null;
     $dnombre = isset($_POST['dnombre']) ? trim($_POST['dnombre']) : null;
     $loc = isset($_POST['loc']) ? trim($_POST['loc']) : null;
     if (isset($dept_no, $dnombre, $loc)) {
+        $pdo = conectar();
         // Validación y saneado de la entrada:
         $error_vacio = [
             'dept_no' => [],
@@ -26,6 +29,10 @@
             } else {
                 if ($dept_no > 99) {
                     $error['dept_no'][] = 'El número no puede ser mayor de 99.';
+                } else {
+                    if (existe_dept_no($dept_no, $pdo)) {
+                        $error['dept_no'][] = 'Ese departamento ya existe.';
+                    }
                 }
             }
         }
@@ -45,9 +52,20 @@
         }
         // Insertar la fila:
         if ($error === $error_vacio) {
-            echo "No hay problema";
+            try {
+                $sent = $pdo->prepare('INSERT INTO depart (dept_no, dnombre, loc)
+                                       VALUES (:dept_no, :dnombre, :loc)');
+                $sent->execute([
+                    'dept_no' => $dept_no,
+                    'dnombre' => $dnombre,
+                    'loc' => $loc,
+                ]);
+                volver();
+            } catch (PDOException $e) {
+                error('No se ha podido insertar la fila.');
+            }
         } else {
-            print_r($error);
+            mostrar_errores($error);
         }
     }
     ?>

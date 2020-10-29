@@ -8,10 +8,10 @@ DROP TABLE IF EXISTS depart CASCADE;
 
 CREATE TABLE depart
 (
-    id      bigserial    PRIMARY KEY
-  , dept_no numeric(2)   NOT NULL UNIQUE
-  , dnombre varchar(255) NOT NULL
-  , loc     varchar(255)
+    id        bigserial    PRIMARY KEY
+  , dept_no   numeric(2)   NOT NULL UNIQUE
+  , dnombre   varchar(255) NOT NULL
+  , loc       varchar(255)
 );
 
 -- Fixtures:

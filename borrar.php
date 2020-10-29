@@ -1,4 +1,6 @@
 <?php
+require './auxiliar.php';
+
 if (isset($_POST['id'])) {
     $id = trim($_POST['id']);
     $pdo = new PDO('pgsql:host=localhost;dbname=prueba', 'prueba', 'prueba');
@@ -6,4 +8,4 @@ if (isset($_POST['id'])) {
     $sent->execute([':id' => $id]);
 }
 setcookie('borrar', '1');
-header('Location: index.php');
+volver();
