@@ -45,6 +45,16 @@ function existe_dept_no($dept_no, $pdo)
     return $sent->fetchColumn() != 0;
 }
 
+function existe_dept_no_otra_fila($dept_no, $id, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM depart
+                            WHERE dept_no = :dept_no
+                              AND id != :id');
+    $sent->execute(['dept_no' => $dept_no, 'id' => $id]);
+    return $sent->fetchColumn() != 0;
+}
+
 function mostrar_errores($error)
 {
     foreach ($error as $k => $v) {
@@ -52,4 +62,9 @@ function mostrar_errores($error)
             echo "<h3>$mensaje</h3>";
         }
     }
+}
+
+function cancelar()
+{ ?>
+    <a href="index.php">Volver</a><?php
 }

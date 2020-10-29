@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Departamentos</title>
+    <style>
+        .borrar {
+            display: inline;
+        }
+    </style>
 </head>
 <body>
     <?php
@@ -45,16 +50,18 @@
             <th>Acciones</th>
         </thead>
         <tbody>
-            <?php foreach ($sent as $fila): ?>
+            <?php foreach ($sent as $fila):
+                $id = $fila['id'] ?>
                 <tr>
                     <td><?= $fila['dept_no'] ?></td>
                     <td><?= $fila['dnombre'] ?></td>
                     <td><?= $fila['loc'] ?></td>
                     <td>
-                        <form action="borrar.php" method="post">
-                            <input type="hidden" name="id" value="<?= $fila['id'] ?>">
+                        <form action="borrar.php" method="post" class="borrar">
+                            <input type="hidden" name="id" value="<?= $id ?>">
                             <button type="submit">Borrar</button>
                         </form>
+                        <a href="modificar.php?id=<?= $id ?>">Modificar</a>
                     </td>
                 </tr>
             <?php endforeach ?>

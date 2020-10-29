@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Insertar un nuevo departamento</title>
+    <title>Modificar un nuevo departamento</title>
 </head>
 <body>
     <?php
@@ -12,10 +12,11 @@
     $dept_no = isset($_POST['dept_no']) ? trim($_POST['dept_no']) : null;
     $dnombre = isset($_POST['dnombre']) ? trim($_POST['dnombre']) : null;
     $loc = isset($_POST['loc']) ? trim($_POST['loc']) : null;
+    $id = isset($_GET['id']) ? trim($_GET['id']) : null;
 
     $pdo = conectar();
-    
-    if (isset($dept_no, $dnombre, $loc)) {
+
+    if (isset($dept_no, $dnombre, $loc, $id)) {
         // Validación y saneado de la entrada:
         $error_vacio = [
             'dept_no' => [],
@@ -32,7 +33,7 @@
                 if ($dept_no > 99) {
                     $error['dept_no'][] = 'El número no puede ser mayor de 99.';
                 } else {
-                    if (existe_dept_no($dept_no, $pdo)) {
+                    if (existe_dept_no_otra_fila($dept_no, $id, $pdo)) {
                         $error['dept_no'][] = 'Ese departamento ya existe.';
                     }
                 }
@@ -55,19 +56,38 @@
         // Insertar la fila:
         if ($error === $error_vacio) {
             try {
-                $sent = $pdo->prepare('INSERT INTO depart (dept_no, dnombre, loc)
-                                       VALUES (:dept_no, :dnombre, :loc)');
+                $sent = $pdo->prepare('UPDATE depart
+                                          SET dept_no = :dept_no
+                                            , dnombre = :dnombre
+                                            , loc = :loc
+                                        WHERE id = :id');
                 $sent->execute([
                     'dept_no' => $dept_no,
                     'dnombre' => $dnombre,
                     'loc' => $loc,
+                    'id' => $id,
                 ]);
                 volver();
             } catch (PDOException $e) {
-                error('No se ha podido insertar la fila.');
+                error('No se ha podido modificar la fila.');
             }
         } else {
             mostrar_errores($error);
+        }
+    } else {
+        if (isset($id)) {
+            $sent = $pdo->prepare('SELECT * FROM depart WHERE id = :id');
+            $sent->execute(['id' => $id]);
+            $fila = $sent->fetch();
+            if ($fila === false) {
+                volver();
+            } else {
+                $dept_no = $fila['dept_no'];
+                $dnombre = $fila['dnombre'];
+                $loc = $fila['loc'];
+            }
+        } else {
+            volver();
         }
     }
     ?>
@@ -87,7 +107,7 @@
             <input type="text" name="loc" id="loc"
                    value="<?= $loc ?>">
         </p>
-        <button type="submit">Insertar</button>
+        <button type="submit">Modificar</button>
         <?php cancelar() ?>
     </form>
 </body>
