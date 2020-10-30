@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 require './auxiliar.php';
 
 if (isset($_POST['id'])) {
@@ -7,5 +9,5 @@ if (isset($_POST['id'])) {
     $sent = $pdo->prepare('DELETE FROM depart WHERE id = :id');
     $sent->execute([':id' => $id]);
 }
-setcookie('borrar', '1');
+$_SESSION['flash'] = 'La fila se ha borrado correctamente.';
 volver();

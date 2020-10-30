@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,6 +63,7 @@
                     'dnombre' => $dnombre,
                     'loc' => $loc,
                 ]);
+                $_SESSION['flash'] = 'La fila se ha insertado correctamente.';
                 volver();
             } catch (PDOException $e) {
                 error('No se ha podido insertar la fila.');

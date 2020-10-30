@@ -14,6 +14,15 @@ CREATE TABLE depart
   , loc       varchar(255)
 );
 
+DROP TABLE IF EXISTS emple CASCADE;
+
+CREATE TABLE emple
+(
+    id bigserial PRIMARY KEY
+  , apellidos ...
+  , depart_id bigint NOT NULL REFERENCES depart (id)
+)
+
 -- Fixtures:
 
 INSERT INTO depart (dept_no, dnombre, loc)

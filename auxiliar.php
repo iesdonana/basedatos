@@ -68,3 +68,21 @@ function cancelar()
 { ?>
     <a href="index.php">Volver</a><?php
 }
+
+function recoger($tipo, $nombre)
+{
+    return filter_input($tipo, $nombre, FILTER_CALLBACK, [
+        'options' => 'trim'
+    ]);
+}
+
+function recoger_get($nombre)
+{
+    return recoger(INPUT_GET, $nombre);
+}
+
+function recoger_post($nombre)
+{
+    return isset($_POST[$nombre]) ? trim($_POST[$nombre]) : null;
+    return recoger(INPUT_POST, $nombre);
+}

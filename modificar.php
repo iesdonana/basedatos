@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,10 +10,10 @@
     <?php
     require './auxiliar.php';
 
-    $dept_no = isset($_POST['dept_no']) ? trim($_POST['dept_no']) : null;
-    $dnombre = isset($_POST['dnombre']) ? trim($_POST['dnombre']) : null;
-    $loc = isset($_POST['loc']) ? trim($_POST['loc']) : null;
-    $id = isset($_GET['id']) ? trim($_GET['id']) : null;
+    $dept_no = recoger_post('dept_no');
+    $dnombre = recoger_post('dnombre');
+    $loc = recoger_post('loc');
+    $id = recoger_get('id');
 
     $pdo = conectar();
 
@@ -67,6 +68,7 @@
                     'loc' => $loc,
                     'id' => $id,
                 ]);
+                $_SESSION['flash'] = 'La fila se ha modificado correctamente.';
                 volver();
             } catch (PDOException $e) {
                 error('No se ha podido modificar la fila.');

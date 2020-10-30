@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -14,7 +15,16 @@
     <?php
     require './auxiliar.php';
     banner();
-    cookies();
+    
+    if (isset($_SESSION['flash'])) {
+        echo "<h3>{$_SESSION['flash']}</h3>";
+        unset($_SESSION['flash']);
+    }
+
+    if (isset($_SESSION['favoritos'])) {   
+        var_dump($_SESSION['favoritos']);
+    }
+
     $dept_no = isset($_GET['dept_no']) ? trim($_GET['dept_no']) : '';
     ?>
     <form action="" method="get">
@@ -62,6 +72,9 @@
                             <button type="submit">Borrar</button>
                         </form>
                         <a href="modificar.php?id=<?= $id ?>">Modificar</a>
+                        <a href="agregar_favoritos.php?id=<?= $id ?>">
+                            Añadir a favoritos
+                        </a>
                     </td>
                 </tr>
             <?php endforeach ?>
