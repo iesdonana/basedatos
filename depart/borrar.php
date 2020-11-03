@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require './auxiliar.php';
+require '../comunes/auxiliar.php';
 
 if (isset($_POST['id'])) {
     $id = trim($_POST['id']);

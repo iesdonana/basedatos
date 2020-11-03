@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require './auxiliar.php';
+    require '../comunes/auxiliar.php';
 
     $dept_no = recoger_post('dept_no');
     $dnombre = recoger_post('dnombre');

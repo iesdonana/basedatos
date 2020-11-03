@@ -8,7 +8,7 @@
 </head>
 <body>
     <?php
-    require './auxiliar.php';
+    require '../comunes/auxiliar.php';
 
     $dept_no = isset($_POST['dept_no']) ? trim($_POST['dept_no']) : null;
     $dnombre = isset($_POST['dnombre']) ? trim($_POST['dnombre']) : null;
