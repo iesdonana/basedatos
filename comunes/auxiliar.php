@@ -45,6 +45,15 @@ function existe_dept_no($dept_no, $pdo)
     return $sent->fetchColumn() != 0;
 }
 
+function existe_emp_no($emp_no, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM emple
+                            WHERE emp_no = :emp_no');
+    $sent->execute(['emp_no' => $emp_no]);
+    return $sent->fetchColumn() != 0;
+}
+
 function existe_dept_no_otra_fila($dept_no, $id, $pdo)
 {
     $sent = $pdo->prepare('SELECT COUNT(*)
