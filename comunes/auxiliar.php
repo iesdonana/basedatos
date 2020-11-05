@@ -1,5 +1,10 @@
 <?php
 
+const TIPO_TEXTO = 0;
+const TIPO_DIGITOS = 1;
+const TIPO_NUMERO = 2;
+const TIPO_FECHA = 3;
+
 function cookies()
 {
     if (isset($_COOKIE['borrar'])) {
@@ -94,4 +99,58 @@ function recoger_post($nombre)
 {
     return isset($_POST[$nombre]) ? trim($_POST[$nombre]) : null;
     return recoger(INPUT_POST, $nombre);
+}
+
+function filtrar(string $par, array $atr, string &$valor, string &$valor_fmt, array &$error)
+{
+    if ($valor == '') {
+        if (isset($atr['obligatorio']) && $atr['obligatorio']) {
+            $error[$par][] = "El campo {$par['etiqueta']} es obligatorio";
+        }
+        return;
+    }
+
+    switch ($atr['tipo']) {
+        case TIPO_TEXTO:
+            break;
+        
+        case TIPO_DIGITOS:
+            if (!ctype_digit($valor)) {
+                $error[$par][] = "El campo {$par['etiqueta']} debe contener sólo dígitos";
+            }
+            break;
+
+        case TIPO_NUMERO:
+            if (!is_numeric($valor)) {
+                $error[$par][] = "El campo {$par['etiqueta']} debe contener un número";
+            } else {
+                if ($valor == '') {
+                    $valor = null;
+                }
+            }
+            break;
+
+        case TIPO_FECHA:
+            $matches = [];
+            if (!preg_match('/^(\d\d)-(\d\d)-(\d{4})$/', $valor, $matches)) {
+                $error[$par][] = "El formato de la fecha en el campo {$par['etiqueta']} no es válido";
+            } else {
+                $dia = $matches[1];
+                $mes = $matches[2];
+                $anyo = $matches[3];
+                if (!checkdate($mes, $dia, $anyo)) {
+                    $error['fecha_alt'][] = 'La fecha es incorrecta';
+                } else {
+                    $valor = "$anyo-$mes-$dia";
+                }
+            }
+            break;
+    }
+
+    if (isset($par['max'])) {
+        if (mb_strlen($valor) > $par['max']) {
+            $error[$par][] = "El campo {$par['etiqueta']} es demasiado grande";
+        }
+    }
+
 }

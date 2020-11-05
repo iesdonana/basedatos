@@ -11,14 +11,61 @@
     require '../comunes/auxiliar.php';
 
     const PAR = [
-        'emp_no'=> 'Número',
-        'apellidos' => 'Apellidos',
-        'salario' => 'Salario',
-        'comision' => 'Comisión',
-        'fecha_alt' => 'Fecha de alta',
-        'oficio' => 'Oficio',
-        'jefe_id' => 'Jefe',
-        'depart_id' => 'Departamento', 
+        'emp_no'=> [
+            'tipo' => TIPO_DIGITOS,
+            'obligatorio' => true,
+            'etiqueta' => 'Número',
+            'max' => 4,
+        ],
+        'apellidos' => [
+            'tipo' => TIPO_TEXTO,
+            'obligatorio' => true,
+            'etiqueta' => 'Apellidos',
+            'max' => 255,
+        ],
+        'salario' => [
+            'tipo' => TIPO_NUMERO,
+            'obligatorio' => true,
+            'etiqueta' => 'Salario',
+            'max' => 999999.99,
+        ],
+        'comision' => [
+            'tipo' => TIPO_NUMERO,
+            'obligatorio' => false,
+            'etiqueta' => 'Comisión',
+            'max' => 999999.99,
+        ],
+        'fecha_alt' => [
+            'tipo' => TIPO_FECHA,
+            'obligatorio' => false,
+            'etiqueta' => 'Fecha de alta',
+        ],
+        'oficio' => [
+            'tipo' => TIPO_TEXTO,
+            'obligatorio' => false,
+            'etiqueta' => 'Oficio',
+            'max' => 255,
+        ],
+        'jefe_id' => [
+            'tipo' => TIPO_DIGITOS,
+            'obligatorio' => false,
+            'etiqueta' => 'Jefe',
+            'relacion' => [
+                'tabla' => 'emple',
+                'columna' => 'id',
+                'visualizar' => 'apellidos',
+            ],
+        ],
+        'depart_id' => [
+            'tipo' => TIPO_DIGITOS,
+            'obligatorio' => true,
+            'etiqueta' => 'Departamento',
+            'relacion' => [
+                'tabla' => 'depart',
+                'columna' => 'id',
+                'visualizar' => 'dnombre',
+            ],
+        ],   
     ];
 
     foreach (PAR as $k => $v) {
