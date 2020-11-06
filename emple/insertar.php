@@ -93,7 +93,9 @@
                 }
             }
         }
-        if ($fecha_alt != '') {
+        if ($fecha_alt == '') {
+            $fecha_alt = null;
+        } else {
             $matches = [];
             if (!preg_match(
                 '/^(\d\d)-(\d\d)-(\d{4})$/',
@@ -111,16 +113,43 @@
                 }
             }
         }
+        if ($oficio == '') {
+            $oficio = null;
+        } else {
+            if (mb_strlen($oficio) > 255) {
+                $error['oficio'][] = 'El oficio es demasiado largo';
+            }
+        }
+        if ($jefe_id == '') {
+            $jefe_id = null;
+        } else {
+            if (!existe_empleado($jefe_id, $pdo)) {
+                $error['jefe_id'][] = 'El jefe no existe';
+            }
+        }
+        if ($depart_id == '') {
+            $error['depart_id'][] = 'Falta el departamento';
+        } else {
+            if (!existe_departamento($depart_id, $pdo)) {
+                $error['depart_id'][] = 'El departamento no existe';
+            }
+        }
         // Insertar la fila:
         if ($error === $error_vacio) {
             try {
-                $sent = $pdo->prepare('INSERT INTO depart (dept_no, dnombre, loc)
-                                       VALUES (:dept_no, :dnombre, :loc)');
-                $sent->execute([
-                    'dept_no' => $dept_no,
-                    'dnombre' => $dnombre,
-                    'loc' => $loc,
-                ]);
+                $columnas = implode(', ', array_keys(PAR));
+                $marcadores = [];
+                foreach (PAR as $k => $v) {
+                    $marcadores[] = ":$k";
+                }
+                $marcadores = implode(', ', $marcadores);
+                $sent = $pdo->prepare("INSERT INTO emple ($columnas)
+                                       VALUES ($marcadores)");
+                $execute = [];
+                foreach (PAR as $k => $v) {
+                    $execute[$k] = $$k;
+                }
+                $sent->execute($execute);
                 $_SESSION['flash'] = 'La fila se ha insertado correctamente.';
                 volver();
             } catch (PDOException $e) {
@@ -164,13 +193,19 @@
         </p>
         <p>
             <label for="jefe_id">Jefe:</label>
-            <input type="text" name="jefe_id" id="jefe_id"
-                   value="<?= $jefe_id ?>">
+            <select name="jefe_id" id="jefe_id">
+                <?php foreach(lista_empleados($pdo) as $k => $v): ?>
+                    <option value="<?= $k ?>"><?= $v ?></option>
+                <?php endforeach ?>
+            </select>
         </p>
         <p>
             <label for="depart_id">Departamento:</label>
-            <input type="text" name="depart_id" id="depart_id"
-                   value="<?= $depart_id ?>">
+            <select name="depart_id" id="depart_id">
+                <?php foreach(lista_departamentos($pdo) as $k => $v): ?>
+                    <option value="<?= $k ?>"><?= $v ?></option>
+                <?php endforeach ?>
+            </select>
         </p>
         <button type="submit">Insertar</button>
         <?php cancelar() ?>

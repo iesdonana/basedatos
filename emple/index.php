@@ -74,12 +74,20 @@
             <?php foreach ($sent as $fila):
                 extract($fila);
                 // Formateado de datos:
-                $fecha_alt_fmt = new DateTime($fecha_alt);
-                $fecha_alt_fmt->setTimezone(new DateTimeZone('Europe/Madrid'));
-                $fecha_alt_fmt = $fecha_alt_fmt->format('d-m-Y H:i:s');
+                if ($fecha_alt != '') {
+                    $fecha_alt_fmt = new DateTime($fecha_alt);
+                    $fecha_alt_fmt->setTimezone(new DateTimeZone('Europe/Madrid'));
+                    $fecha_alt_fmt = $fecha_alt_fmt->format('d-m-Y H:i:s');
+                } else {
+                    $fecha_alt_fmt = null;
+                }
                 $fmt = new NumberFormatter('es_ES', NumberFormatter::CURRENCY);
                 $salario_fmt = $fmt->formatCurrency($salario, 'EUR');
-                $comision_fmt = $fmt->formatCurrency($comision, 'EUR');
+                if ($comision != '') {
+                    $comision_fmt = $fmt->formatCurrency($comision, 'EUR');
+                } else {
+                    $comision_fmt = null;
+                }
                 $jefe_fmt = isset($j_emp_no) ? "($j_emp_no) $j_apellidos" : '';
                 $depart_fmt = "($dept_no) $dnombre";
                 ?>

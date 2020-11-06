@@ -54,6 +54,24 @@ function existe_emp_no($emp_no, $pdo)
     return $sent->fetchColumn() != 0;
 }
 
+function existe_empleado($id, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM emple
+                            WHERE id = :id');
+    $sent->execute(['id' => $id]);
+    return $sent->fetchColumn() != 0;
+}
+
+function existe_departamento($id, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM depart
+                            WHERE id = :id');
+    $sent->execute(['id' => $id]);
+    return $sent->fetchColumn() != 0;
+}
+
 function existe_dept_no_otra_fila($dept_no, $id, $pdo)
 {
     $sent = $pdo->prepare('SELECT COUNT(*)
@@ -94,4 +112,28 @@ function recoger_post($nombre)
 {
     return isset($_POST[$nombre]) ? trim($_POST[$nombre]) : null;
     return recoger(INPUT_POST, $nombre);
+}
+
+function lista_empleados($pdo)
+{
+    $sent = $pdo->query('SELECT id, emp_no, apellidos
+                           FROM emple
+                       ORDER BY emp_no');
+    $ret = [];
+    foreach ($sent as $fila) {
+        $ret[$fila['id']] = "({$fila['emp_no']}) {$fila['apellidos']}";
+    }
+    return $ret;
+}
+
+function lista_departamentos($pdo)
+{
+    $sent = $pdo->query('SELECT id, dept_no, dnombre
+                           FROM depart
+                       ORDER BY dept_no');
+    $ret = [];
+    foreach ($sent as $fila) {
+        $ret[$fila['id']] = "({$fila['dept_no']}) {$fila['dnombre']}";
+    }
+    return $ret;
 }
