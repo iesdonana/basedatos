@@ -132,14 +132,46 @@
     }
     ?>
     <form action="" method="post">
-        <?php foreach (PAR as $k => $v):
-            $tmp = $k . '_fmt'; ?>
-            <p>
-                <label for="<?= $k ?>"><?= $v ?>: </label>
-                <input type="text" name="<?= $k ?>" id="<?= $k ?>"
-                   value="<?= $$tmp ?>">
-            </p>
-        <?php endforeach ?>
+        <p>
+            <label for="emp_no">Número:</label>
+            <input type="text" name="emp_no" id="emp_no"
+                   value="<?= $emp_no ?>">
+        </p>
+        <p>
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" name="apellidos" id="apellidos"
+                   value="<?= $apellidos ?>">
+        </p>
+        <p>
+            <label for="salario">Salario:</label>
+            <input type="text" name="salario" id="salario"
+                   value="<?= $salario ?>">
+        </p>
+        <p>
+            <label for="comision">Comisión:</label>
+            <input type="text" name="comision" id="comision"
+                   value="<?= $comision ?>">
+        </p>
+        <p>
+            <label for="fecha_alt">Fecha de alta:</label>
+            <input type="text" name="fecha_alt" id="fecha_alt"
+                   value="<?= $fecha_alt ?>">
+        </p>
+        <p>
+            <label for="oficio">Oficio:</label>
+            <input type="text" name="oficio" id="oficio"
+                   value="<?= $oficio ?>">
+        </p>
+        <p>
+            <label for="jefe_id">Jefe:</label>
+            <input type="text" name="jefe_id" id="jefe_id"
+                   value="<?= $jefe_id ?>">
+        </p>
+        <p>
+            <label for="depart_id">Departamento:</label>
+            <input type="text" name="depart_id" id="depart_id"
+                   value="<?= $depart_id ?>">
+        </p>
         <button type="submit">Insertar</button>
         <?php cancelar() ?>
     </form>
