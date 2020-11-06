@@ -142,3 +142,8 @@ function selected($a, $b)
 {
     return ($a == $b) ? 'selected' : '';
 }
+
+function hh($s)
+{
+    return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE);
+}

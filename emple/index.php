@@ -92,21 +92,21 @@
                 $depart_fmt = "($dept_no) $dnombre";
                 ?>
                 <tr>
-                    <td><?= $emp_no ?></td>
-                    <td><?= $apellidos ?></td>
-                    <td><?= $salario_fmt ?></td>
-                    <td><?= $comision_fmt ?></td>
-                    <td><?= $fecha_alt_fmt ?></td>
-                    <td><?= $oficio ?></td>
-                    <td><?= $jefe_fmt ?></td>
-                    <td><?= $depart_fmt ?></td>
+                    <td><?= hh($emp_no) ?></td>
+                    <td><?= hh($apellidos) ?></td>
+                    <td><?= hh($salario_fmt) ?></td>
+                    <td><?= hh($comision_fmt) ?></td>
+                    <td><?= hh($fecha_alt_fmt) ?></td>
+                    <td><?= hh($oficio) ?></td>
+                    <td><?= hh($jefe_fmt) ?></td>
+                    <td><?= hh($depart_fmt) ?></td>
                     <td>
                         <form action="/emple/borrar.php" method="post" class="borrar">
-                            <input type="hidden" name="id" value="<?= $id ?>">
+                            <input type="hidden" name="id" value="<?= hh($id) ?>">
                             <button type="submit">Borrar</button>
                         </form>
-                        <a href="/emple/modificar.php?id=<?= $id ?>">Modificar</a>
-                        <a href="agregar_favoritos.php?id=<?= $id ?>">
+                        <a href="/emple/modificar.php?id=<?= hh($id) ?>">Modificar</a>
+                        <a href="agregar_favoritos.php?id=<?= hh($id) ?>">
                             Añadir a favoritos
                         </a>
                     </td>
