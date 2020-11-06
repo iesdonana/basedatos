@@ -137,3 +137,8 @@ function lista_departamentos($pdo)
     }
     return $ret;
 }
+
+function selected($a, $b)
+{
+    return ($a == $b) ? 'selected' : '';
+}

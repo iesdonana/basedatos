@@ -164,38 +164,42 @@
         <p>
             <label for="emp_no">Número:</label>
             <input type="text" name="emp_no" id="emp_no"
-                   value="<?= $emp_no ?>">
+                   value="<?= $emp_no_fmt ?>">
         </p>
         <p>
             <label for="apellidos">Apellidos:</label>
             <input type="text" name="apellidos" id="apellidos"
-                   value="<?= $apellidos ?>">
+                   value="<?= $apellidos_fmt ?>">
         </p>
         <p>
             <label for="salario">Salario:</label>
             <input type="text" name="salario" id="salario"
-                   value="<?= $salario ?>">
+                   value="<?= $salario_fmt ?>">
         </p>
         <p>
             <label for="comision">Comisión:</label>
             <input type="text" name="comision" id="comision"
-                   value="<?= $comision ?>">
+                   value="<?= $comision_fmt ?>">
         </p>
         <p>
             <label for="fecha_alt">Fecha de alta:</label>
             <input type="text" name="fecha_alt" id="fecha_alt"
-                   value="<?= $fecha_alt ?>">
+                   value="<?= $fecha_alt_fmt ?>">
         </p>
         <p>
             <label for="oficio">Oficio:</label>
             <input type="text" name="oficio" id="oficio"
-                   value="<?= $oficio ?>">
+                   value="<?= $oficio_fmt ?>">
         </p>
         <p>
             <label for="jefe_id">Jefe:</label>
             <select name="jefe_id" id="jefe_id">
+                <option value=""></option>
                 <?php foreach(lista_empleados($pdo) as $k => $v): ?>
-                    <option value="<?= $k ?>"><?= $v ?></option>
+                    <option value="<?= $k ?>"
+                            <?= selected($k, $jefe_id) ?>>
+                        <?= $v ?>
+                    </option>
                 <?php endforeach ?>
             </select>
         </p>
@@ -203,7 +207,10 @@
             <label for="depart_id">Departamento:</label>
             <select name="depart_id" id="depart_id">
                 <?php foreach(lista_departamentos($pdo) as $k => $v): ?>
-                    <option value="<?= $k ?>"><?= $v ?></option>
+                    <option value="<?= $k ?>"
+                            <?= selected($k, $depart_id) ?>>
+                        <?= $v ?>
+                    </option>
                 <?php endforeach ?>
             </select>
         </p>

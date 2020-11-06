@@ -77,7 +77,7 @@
                 if ($fecha_alt != '') {
                     $fecha_alt_fmt = new DateTime($fecha_alt);
                     $fecha_alt_fmt->setTimezone(new DateTimeZone('Europe/Madrid'));
-                    $fecha_alt_fmt = $fecha_alt_fmt->format('d-m-Y H:i:s');
+                    $fecha_alt_fmt = $fecha_alt_fmt->format('d-m-Y');
                 } else {
                     $fecha_alt_fmt = null;
                 }
