@@ -10,6 +10,8 @@
     <?php
     require '../comunes/auxiliar.php';
 
+    encabezado();
+
     const PAR = [
         'emp_no'=> 'Número',
         'apellidos' => 'Apellidos',

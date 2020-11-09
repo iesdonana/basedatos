@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Departamentos</title>
+    <title>Empleados</title>
     <style>
         .borrar {
             display: inline;
@@ -15,6 +15,7 @@
     <?php
     require '../comunes/auxiliar.php';
     banner();
+    encabezado();
     
     if (isset($_SESSION['flash'])) {
         echo "<h3>{$_SESSION['flash']}</h3>";

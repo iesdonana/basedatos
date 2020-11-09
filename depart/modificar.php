@@ -10,6 +10,8 @@
     <?php
     require '../comunes/auxiliar.php';
 
+    encabezado();
+
     $dept_no = recoger_post('dept_no');
     $dnombre = recoger_post('dnombre');
     $loc = recoger_post('loc');

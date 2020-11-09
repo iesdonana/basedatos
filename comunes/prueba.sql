@@ -4,6 +4,15 @@
 
 -- Esquema:
 
+DROP TABLE IF EXISTS usuarios CASCADE;
+
+CREATE TABLE usuarios
+(
+    id       bigserial    PRIMARY KEY
+  , login    varchar(255) NOT NULL UNIQUE
+  , password varchar(255) NOT NULL
+);
+
 DROP TABLE IF EXISTS depart CASCADE;
 
 CREATE TABLE depart
@@ -45,6 +54,10 @@ VALUES ('1111', 'GARCÍA', 2345.23, NULL, '2018-11-04 14:00:00',
         'VENDEDOR', NULL, 3)
      , ('3333', 'MARTÍNEZ', 1500.00, 200.00, '2016-02-02 14:00:00',
         'EMPLEADO', 2, 3);
+
+INSERT INTO usuarios (login, password)
+VALUES ('usuario', crypt('usuario', gen_salt('bf', 10)))
+     , ('admin', crypt('admin', gen_salt('bf', 10)));
 
 -- Conversiones entre SQL y PHP:
 -- NULL <=> null

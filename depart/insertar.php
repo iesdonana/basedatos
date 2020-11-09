@@ -10,6 +10,8 @@
     <?php
     require '../comunes/auxiliar.php';
 
+    encabezado();
+
     $dept_no = isset($_POST['dept_no']) ? trim($_POST['dept_no']) : null;
     $dnombre = isset($_POST['dnombre']) ? trim($_POST['dnombre']) : null;
     $loc = isset($_POST['loc']) ? trim($_POST['loc']) : null;

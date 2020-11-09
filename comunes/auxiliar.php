@@ -27,7 +27,7 @@ function conectar()
 
 function volver()
 {
-    header('Location: index.php');
+    header('Location: /index.php');
 }
 
 function error($mensaje)
@@ -146,4 +146,23 @@ function selected($a, $b)
 function hh($s)
 {
     return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE);
+}
+
+function logueado()
+{
+    return $_SESSION['login'] ?? false;
+}
+
+function encabezado()
+{
+    if ($logueado = logueado()): ?>
+        <form action="/comunes/logout.php" method="post" style="float:right">
+            <?= hh($logueado['nombre']) ?>
+            <button type="submit">Logout</button>
+        </form><?php
+    else: ?>
+        <form action="/comunes/login.php" style="float:right">
+            <button type="submit">Login</button>
+        </form><?php
+    endif;
 }
