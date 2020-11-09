@@ -10,7 +10,8 @@
     <?php
     require '../comunes/auxiliar.php';
 
-    encabezado();
+    head();
+    comprobar_admin();
 
     const PAR = [
         'emp_no'=> 'Número',

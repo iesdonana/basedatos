@@ -14,17 +14,13 @@
 <body>
     <?php
     require '../comunes/auxiliar.php';
-    banner();
-    encabezado();
-    
-    if (isset($_SESSION['flash'])) {
-        echo "<h3>{$_SESSION['flash']}</h3>";
-        unset($_SESSION['flash']);
-    }
 
-    if (isset($_SESSION['favoritos'])) {   
-        var_dump($_SESSION['favoritos']);
-    }
+    head();
+    comprobar_logueado();
+    
+    // if (isset($_SESSION['favoritos'])) {   
+    //     var_dump($_SESSION['favoritos']);
+    // }
 
     $emp_no = isset($_GET['emp_no']) ? trim($_GET['emp_no']) : '';
     ?>

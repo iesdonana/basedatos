@@ -10,7 +10,7 @@
     <?php
     require './auxiliar.php';
 
-    encabezado();
+    head();
 
     $login = recoger_post('login');
     $password = recoger_post('password');

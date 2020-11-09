@@ -14,8 +14,9 @@
 <body>
     <?php
     require '../comunes/auxiliar.php';
-    banner();
-    encabezado();
+    
+    head();
+    comprobar_logueado();
     
     if (isset($_SESSION['flash'])) {
         echo "<h3>{$_SESSION['flash']}</h3>";

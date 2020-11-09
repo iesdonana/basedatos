@@ -10,7 +10,8 @@
     <?php
     require '../comunes/auxiliar.php';
 
-    encabezado();
+    head();
+    comprobar_admin();
 
     $dept_no = recoger_post('dept_no');
     $dnombre = recoger_post('dnombre');

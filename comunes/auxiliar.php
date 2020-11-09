@@ -166,3 +166,36 @@ function encabezado()
         </form><?php
     endif;
 }
+
+function flash()
+{
+    if (isset($_SESSION['flash'])) {
+        echo "<h3>{$_SESSION['flash']}</h3>";
+        unset($_SESSION['flash']);
+    }
+}
+
+function head()
+{
+    banner();
+    encabezado();
+    flash();
+}
+
+function comprobar_logueado()
+{
+    if (!logueado()) {
+        $_SESSION['flash'] = 'Debe estar logueado.';
+        volver();
+    }
+}
+
+function comprobar_admin()
+{
+    comprobar_logueado();
+
+    if (logueado()['nombre'] != 'admin') {
+        $_SESSION['flash'] = 'Debe ser administrador.';
+        volver();
+    }
+}
