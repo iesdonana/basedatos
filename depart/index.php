@@ -13,7 +13,7 @@
 </head>
 <body>
     <?php
-    require '../comunes/auxiliar.php';
+    require '/comunes/auxiliar.php';
     
     head();
     comprobar_logueado();

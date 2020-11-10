@@ -82,6 +82,16 @@ function existe_dept_no_otra_fila($dept_no, $id, $pdo)
     return $sent->fetchColumn() != 0;
 }
 
+function existe_emp_no_otra_fila($emp_no, $id, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM emple
+                            WHERE emp_no = :emp_no
+                              AND id != :id');
+    $sent->execute(['emp_no' => $emp_no, 'id' => $id]);
+    return $sent->fetchColumn() != 0;
+}
+
 function mostrar_errores($error)
 {
     foreach ($error as $k => $v) {
@@ -110,7 +120,6 @@ function recoger_get($nombre)
 
 function recoger_post($nombre)
 {
-    return isset($_POST[$nombre]) ? trim($_POST[$nombre]) : null;
     return recoger(INPUT_POST, $nombre);
 }
 
@@ -186,7 +195,7 @@ function comprobar_logueado()
 {
     if (!logueado()) {
         $_SESSION['flash'] = 'Debe estar logueado.';
-        volver();
+        header('Location: /comunes/login.php');
     }
 }
 

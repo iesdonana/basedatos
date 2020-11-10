@@ -65,3 +65,13 @@ VALUES ('usuario', crypt('usuario', gen_salt('bf', 10)))
 -- entero (no numeric) <=> int (si cabe)
 -- el resto <=> string
 
+-- XSS = Cross-Site Scripting ==> Escapar la salida con htmlspecialchars()
+-- SQL ==> Usar PDO
+-- CSRF = Cross-Site Request Forgery ==> Crear un token, ponerlo oculto en 
+--                                       cada formulario, guardarlo en una
+--                                       variable de sesión y cada vez que
+--                                       se recojan los datos de un
+--                                       formulario, comprobar que el token
+--                                       recogido coincide con el que está
+--                                       guardado en la sesión.
+

@@ -57,7 +57,7 @@
                 $error['loc'][] = 'La localidad es demasiado larga.';
             }
         }
-        // Insertar la fila:
+        // Modificar la fila:
         if ($error === $error_vacio) {
             try {
                 $sent = $pdo->prepare('UPDATE depart
@@ -87,9 +87,7 @@
             if ($fila === false) {
                 volver();
             } else {
-                $dept_no = $fila['dept_no'];
-                $dnombre = $fila['dnombre'];
-                $loc = $fila['loc'];
+                extract($fila);
             }
         } else {
             volver();

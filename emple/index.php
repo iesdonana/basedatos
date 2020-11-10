@@ -17,6 +17,10 @@
 
     head();
     comprobar_logueado();
+
+    if (!isset($_SESSION['csrf_token'])) {
+        $_SESSION['csrf_token'] = bin2hex(openssl_random_pseudo_bytes(32));
+    }
     
     // if (isset($_SESSION['favoritos'])) {   
     //     var_dump($_SESSION['favoritos']);
@@ -100,6 +104,8 @@
                     <td>
                         <form action="/emple/borrar.php" method="post" class="borrar">
                             <input type="hidden" name="id" value="<?= hh($id) ?>">
+                            <input type="hidden" name="csrf_token"
+                                   value="<?= $_SESSION['csrf_token'] ?>">
                             <button type="submit">Borrar</button>
                         </form>
                         <a href="/emple/modificar.php?id=<?= hh($id) ?>">Modificar</a>

@@ -1,3 +1,3 @@
 <?php
 session_start();
-header('Location: emple/index.php');
+header('Location: /emple/index.php');
