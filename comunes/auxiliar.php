@@ -1,4 +1,13 @@
 <?php
+/**
+ * @author Ricardo Pérez
+ * @copyright Copyright (c) 2020 Ricardo Pérez
+ * @license http://www.gnu.org/licenses/gpl-3.0.txt
+ */
+
+/**
+ * auxiliar.php - Funciones auxiliares
+ */
 
 function cookies()
 {
@@ -152,6 +161,12 @@ function selected($a, $b)
     return ($a == $b) ? 'selected' : '';
 }
 
+/**
+ * Aplica filtrado a la salida.
+ * 
+ * @param string $s La cadena que hay que filtrar.
+ * @return string La cadena filtrada.
+ */
 function hh($s)
 {
     return htmlspecialchars($s, ENT_QUOTES | ENT_SUBSTITUTE);
@@ -199,6 +214,9 @@ function comprobar_logueado()
     }
 }
 
+/**
+ * Comprueba si el usuario logueado es administrador.
+ */
 function comprobar_admin()
 {
     comprobar_logueado();
