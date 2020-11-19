@@ -36,7 +36,7 @@ function conectar()
 
 function volver()
 {
-    header('Location: /index.php');
+    header('Location: /usuarios/index.php');
 }
 
 function error($mensaje)
@@ -98,6 +98,16 @@ function existe_emp_no_otra_fila($emp_no, $id, $pdo)
                             WHERE emp_no = :emp_no
                               AND id != :id');
     $sent->execute(['emp_no' => $emp_no, 'id' => $id]);
+    return $sent->fetchColumn() != 0;
+}
+
+function existe_usuario_otra_fila($login, $id, $pdo)
+{
+    $sent = $pdo->prepare('SELECT COUNT(*)
+                             FROM usuarios
+                            WHERE login = :login
+                              AND id != :id');
+    $sent->execute(['login' => $login, 'id' => $id]);
     return $sent->fetchColumn() != 0;
 }
 
@@ -224,5 +234,16 @@ function comprobar_admin()
     if (logueado()['nombre'] != 'admin') {
         $_SESSION['flash'] = 'Debe ser administrador.';
         volver();
+    }
+}
+
+function borrar_fila($tabla)
+{
+    if (isset($_POST['id'])) {
+        $id = trim($_POST['id']);
+        $pdo = conectar();
+        $sent = $pdo->prepare("DELETE FROM $tabla WHERE id = :id");
+        $sent->execute([':id' => $id]);
+        $_SESSION['flash'] =  'La fila se ha borrado correctamente.';
     }
 }
