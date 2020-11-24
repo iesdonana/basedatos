@@ -1,0 +1,18 @@
+$nfilas = número total de filas (COUNT(*))
+FPP = filas por página (= 3)
+$npags = número total de páginas (= ceil($nfilas / FPP))
+$pag = número de página actual [1..$npags]
+
+    SELECT *
+      FROM ...
+  ORDER BY dept_no
+     LIMIT FPP
+    OFFSET FPP * ($pag - 1)
+
+  $npag        OFFSET
+---------- --------------
+    1            0
+    2           FPP
+    3           FPP * 2
+    4           FPP * 3
+                FPP * ($pag - 1)

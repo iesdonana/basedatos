@@ -44,7 +44,11 @@ INSERT INTO depart (dept_no, dnombre, loc)
 VALUES (10, 'CONTABILIDAD', 'SANLÚCAR')
      , (20, 'INVESTIGACIÓN', 'JEREZ')
      , (30, 'VENTAS', 'CHIPIONA')
-     , (40, 'PRODUCCIÓN', 'TREBUJENA');
+     , (40, 'PRODUCCIÓN', 'TREBUJENA')
+     , (50, 'ADMINISTRATIVO', 'MADRID')
+     , (60, 'INGLÉS', 'VALENCIA')
+     , (70, 'ROBÓTICA', 'TOLEDO')
+     , (80, 'FRANCÉS', 'PARIS');
 
 INSERT INTO emple (emp_no, apellidos, salario, comision, fecha_alt,
                    oficio, jefe_id, depart_id)

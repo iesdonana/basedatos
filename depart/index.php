@@ -27,7 +27,8 @@
         var_dump($_SESSION['favoritos']);
     }
     
-    $dept_no = isset($_GET['dept_no']) ? trim($_GET['dept_no']) : '';
+    $dept_no = recoger_get('dept_no');
+    $pag = recoger_get('pag') ?? 1;
     ?>
     <div class="container">
         <?php head() ?>
@@ -47,23 +48,32 @@
         // Validación del $dept_no
         if ($dept_no == '') {
             $sent = $pdo->query('SELECT COUNT(*) FROM depart');
-            $count = $sent->fetchColumn();
-            $sent = $pdo->query('SELECT * FROM depart');
+            $nfilas = $sent->fetchColumn();
+            $npags = ceil($nfilas / FPP);
+            $sent = $pdo->query('SELECT *
+                                   FROM depart
+                               ORDER BY dept_no
+                                  LIMIT ' . FPP .
+                                'OFFSET ' . FPP * ($pag - 1));
         } else {
             $sent = $pdo->prepare("SELECT COUNT(*)
-                                    FROM depart
+                                     FROM depart
                                     WHERE dept_no = :dept_no");
             $sent->execute([':dept_no' => $dept_no]);
-            $count = $sent->fetchColumn();
-            $sent = $pdo->prepare("SELECT *
-                                    FROM depart
-                                    WHERE dept_no = :dept_no");
+            $nfilas = $sent->fetchColumn();
+            $npags = ceil($nfilas / FPP);
+            $sent = $pdo->prepare('SELECT *
+                                     FROM depart
+                                    WHERE dept_no = :dept_no
+                                 ORDER BY dept_no
+                                    LIMIT ' . FPP .
+                                  'OFFSET ' . FPP * ($pag - 1));
             $sent->execute([':dept_no' => $dept_no]);
         }
         ?>
         <div class="row mt-3">
             <div class="col">
-                La tabla tiene <?= $count ?> filas.
+                La tabla tiene <?= $nfilas ?> filas.
                 <table class="table table-striped table-bordered">
                     <thead>
                         <th>Núm. Dept.</th>
@@ -94,6 +104,7 @@
                 </table>
             </div>
         </div>
+        <?php paginador($pag, $npags) ?>
         <div class="row">
             <div class="col">
                 <a href="insertar.php">Insertar un nuevo departamento</a>
