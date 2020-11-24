@@ -192,7 +192,7 @@ function encabezado()
     if ($logueado = logueado()): ?>
         <form action="/comunes/logout.php" method="post" style="float:right">
             <?= hh($logueado['nombre']) ?>
-            <button type="submit">Logout</button>
+            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
         </form><?php
     else: ?>
         <form action="/comunes/login.php" style="float:right">
