@@ -27,7 +27,8 @@
         var_dump($_SESSION['favoritos']);
     }
     
-    $dept_no = recoger_get('dept_no');
+    $columna = recoger_get('columna') ?? 'dept_no';
+    $criterio = recoger_get('criterio');
     $pag = recoger_get('pag') ?? 1;
     ?>
     <div class="container">
@@ -36,8 +37,17 @@
             <div class="col">
                 <form action="" method="get">
                     <div class="form-group">
-                        <label for="dept_no">Número:</label>
-                        <input type="text" class="form-control" name="dept_no" id="dept_no" value="<?= $dept_no ?>">
+                        <select name="columna" id="columna" class="form-control">
+                            <option value="dept_no"
+                                    <?= selected($columna, 'dept_no') ?>>
+                                Número
+                            </option>
+                            <option value="dnombre"
+                                    <?= selected($columna, 'dnombre') ?>>
+                                Nombre
+                            </option>
+                        </select>
+                        <input type="text" class="form-control" name="criterio" id="criterio" value="<?= $criterio ?>">
                     </div>
                     <button type="submit" class="btn btn-primary">Buscar</button>
                 </form>
@@ -45,30 +55,48 @@
         </div>
         <?php
         $pdo = conectar();
-        // Validación del $dept_no
-        if ($dept_no == '') {
+        $limit = FPP;
+        $offset = FPP * ($pag - 1);
+
+        if ($criterio == '') {
             $sent = $pdo->query('SELECT COUNT(*) FROM depart');
             $nfilas = $sent->fetchColumn();
             $npags = ceil($nfilas / FPP);
-            $sent = $pdo->query('SELECT *
-                                   FROM depart
-                               ORDER BY dept_no
-                                  LIMIT ' . FPP .
-                                'OFFSET ' . FPP * ($pag - 1));
+            $sent = $pdo->query("SELECT *
+                                    FROM depart
+                                ORDER BY dept_no
+                                   LIMIT $limit
+                                  OFFSET $offset");
         } else {
-            $sent = $pdo->prepare("SELECT COUNT(*)
-                                     FROM depart
-                                    WHERE dept_no = :dept_no");
-            $sent->execute([':dept_no' => $dept_no]);
-            $nfilas = $sent->fetchColumn();
-            $npags = ceil($nfilas / FPP);
-            $sent = $pdo->prepare('SELECT *
-                                     FROM depart
-                                    WHERE dept_no = :dept_no
-                                 ORDER BY dept_no
-                                    LIMIT ' . FPP .
-                                  'OFFSET ' . FPP * ($pag - 1));
-            $sent->execute([':dept_no' => $dept_no]);
+            if ($columna == 'dept_no') {
+                $sent = $pdo->prepare('SELECT COUNT(*)
+                                         FROM depart
+                                        WHERE dept_no::text = :dept_no');
+                $sent->execute(['dept_no' => $criterio]);
+                $nfilas = $sent->fetchColumn();
+                $npags = ceil($nfilas / FPP);
+                $sent = $pdo->prepare("SELECT *
+                                         FROM depart
+                                        WHERE dept_no::text = :dept_no
+                                     ORDER BY dept_no
+                                        LIMIT $limit
+                                       OFFSET $offset");
+                $sent->execute(['dept_no' => $criterio]);
+            } elseif ($columna == 'dnombre') {
+                $sent = $pdo->prepare('SELECT COUNT(*)
+                                       FROM depart
+                                      WHERE upper(dnombre) LIKE upper(:dnombre)');
+                $sent->execute(['dnombre' => "%$criterio%"]);
+                $nfilas = $sent->fetchColumn();
+                $npags = ceil($nfilas / FPP);
+                $sent = $pdo->prepare("SELECT *
+                                         FROM depart
+                                        WHERE upper(dnombre) LIKE upper(:dnombre)
+                                     ORDER BY dnombre
+                                        LIMIT $limit
+                                       OFFSET $offset");
+                $sent->execute(['dnombre' => "%$criterio%"]);
+            }
         }
         ?>
         <div class="row mt-3">
@@ -104,7 +132,7 @@
                 </table>
             </div>
         </div>
-        <?php paginador($pag, $npags) ?>
+        <?php paginador($pag, $npags, "&columna=$columna&criterio=$criterio") ?>
         <div class="row">
             <div class="col">
                 <a href="insertar.php">Insertar un nuevo departamento</a>

@@ -250,7 +250,7 @@ function borrar_fila($tabla)
     }
 }
 
-function paginador($pag, $npags)
+function paginador($pag, $npags, $params)
 { ?>
     <div class="row">
         <div class="col">
@@ -258,7 +258,7 @@ function paginador($pag, $npags)
                 <ul class="pagination">
                     <?php if ($pag > 1): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?pag=<?= $pag - 1 ?>" aria-label="Previous">
+                            <a class="page-link" href="?pag=<?= ($pag - 1) . "$params" ?>" aria-label="Previous">
                                 <span aria-hidden="true">&laquo;</span>
                             </a>
                         </li>
@@ -279,7 +279,7 @@ function paginador($pag, $npags)
                             </li>
                         <?php else: ?>
                             <li class="page-item">
-                                <a class="page-link" href="?pag=<?= $i ?>">
+                                <a class="page-link" href="?pag=<?= "$i$params" ?>">
                                     <?= $i ?>
                                 </a>
                             </li>
@@ -287,7 +287,7 @@ function paginador($pag, $npags)
                     <?php endfor ?>
                     <?php if ($pag < $npags): ?>
                         <li class="page-item">
-                            <a class="page-link" href="?pag=<?= $pag + 1 ?>" aria-label="Next">
+                            <a class="page-link" href="?pag=<?= ($pag + 1) . "$params" ?>" aria-label="Next">
                                 <span aria-hidden="true">&raquo;</span>
                             </a>
                         </li>
